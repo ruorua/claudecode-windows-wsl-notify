@@ -55,11 +55,12 @@ class TestWindowsNotification(unittest.TestCase):
         
         # 検証
         self.assertTrue(result)
-        mock_subprocess.assert_called_once()
+        # 1回呼び出される（Windows標準通知）
+        self.assertEqual(mock_subprocess.call_count, 1)
         
         # PowerShellコマンドが呼び出されていることを確認
         call_args = mock_subprocess.call_args[0][0]
-        self.assertIn('powershell.exe', call_args)
+        self.assertTrue(any('powershell.exe' in str(arg) for arg in call_args))
     
     @patch('subprocess.run')
     def test_send_notification_with_custom_message(self, mock_subprocess):
@@ -72,7 +73,8 @@ class TestWindowsNotification(unittest.TestCase):
         result = self.notifier.send_notification(title, message)
         
         self.assertTrue(result)
-        mock_subprocess.assert_called_once()
+        # 1回呼び出される（Windows標準通知）
+        self.assertEqual(mock_subprocess.call_count, 1)
         
         # コマンドにタイトルとメッセージが含まれていることを確認
         call_args = str(mock_subprocess.call_args)
@@ -101,9 +103,9 @@ class TestWindowsNotification(unittest.TestCase):
         # PowerShellが呼び出されていることを確認
         self.assertTrue(any('powershell.exe' in str(arg) for arg in call_args))
         
-        # BurntToastコマンドが含まれていることを確認
+        # System.Windows.Formsコマンドが含まれていることを確認
         command_str = ' '.join(str(arg) for arg in call_args)
-        self.assertIn('New-BurntToastNotification', command_str)
+        self.assertIn('System.Windows.Forms', command_str)
     
     def test_default_notification_method(self):
         """デフォルト通知メソッドのテスト"""
