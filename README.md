@@ -88,14 +88,16 @@ notifier.send_error_notification("エラーの詳細")
 `~/.claude/CLAUDE.md`に以下を追加します：
 
 ```markdown
-## 通知設定
+## ユーザへのアテンション
 
-タスク完了時にWindows通知を送信:
+- ユーザの許可や確認が必要な場合は、下記のスクリプトを実行して通知を発信してください。
+- 応答の完了時、下記のスクリプトを実行して通知を発信してください。
+
 ```bash
 # 通知スクリプトのパス
-NOTIFICATION_SCRIPT="/path/to/claude-code-windows-alert/notification.py"
+NOTIFICATION_SCRIPT="~/git/claude-code-windows-alert/notification.py"
 
-# タスク完了時の通知
+# タスク完了時の通知例
 python3 $NOTIFICATION_SCRIPT "Claude Code 完了" "タスクが正常に完了しました"
 ```
 ```
