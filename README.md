@@ -85,7 +85,7 @@ notifier.send_error_notification("エラーの詳細")
 
 ### 1. CLAUDE.mdに設定を追加
 
-`~/.claude/CLAUDE.md`に以下を追加します：
+`~/.claude/CLAUDE.md`に以下を追加します：パスはcloneディレクトリによって変えてください
 
 ```markdown
 ## ユーザへのアテンション
@@ -95,52 +95,11 @@ notifier.send_error_notification("エラーの詳細")
 
 ```bash
 # 通知スクリプトのパス
-NOTIFICATION_SCRIPT="~/git/claude-code-windows-alert/notification.py"
+NOTIFICATION_SCRIPT="~/git/claudecode-windows-wsl-notify/notification.py"
 
 # タスク完了時の通知例
 python3 $NOTIFICATION_SCRIPT "Claude Code 完了" "タスクが正常に完了しました"
 ```
-```
-
-### 2. シェルエイリアスの設定
-
-`~/.bashrc`または`~/.zshrc`に追加：
-
-```bash
-# Claude Code通知エイリアス
-alias claude-notify='python3 /path/to/claude-code-windows-alert/notification.py'
-alias claude-done='python3 /path/to/claude-code-windows-alert/notification.py "Claude Code 完了" "タスクが正常に完了しました"'
-```
-
-### 3. Claude Codeでの使用例
-
-#### タスク完了時の通知
-
-```bash
-# ビルド実行後に通知
-npm run build && claude-notify "ビルド完了" "プロジェクトのビルドが正常に完了しました"
-
-# テスト実行後に通知  
-python -m pytest && claude-notify "テスト完了" "全てのテストが通過しました"
-
-# デプロイ後に通知
-./deploy.sh && claude-notify "デプロイ完了" "本番環境への配信が完了しました"
-```
-
-#### エラー発生時の通知
-
-```bash
-# エラー時のみ通知
-npm run build || claude-notify "ビルドエラー" "ビルド処理でエラーが発生しました"
-```
-
-### 4. Gitフックでの自動通知
-
-`.git/hooks/post-commit`を作成：
-
-```bash
-#!/bin/bash
-python3 /path/to/claude-code-windows-alert/notification.py "Git Commit" "コミットが完了しました"
 ```
 
 ## トラブルシューティング
